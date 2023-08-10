@@ -36,14 +36,7 @@ const deleteBlog = async function (req, res) {
       const blog2 = await blogModel.find({ category: category });
       
       if (blog2) {
-        
-        if (blog2.isDeleted == true) {
-          return res
-            .status(400)
-            .send({ status: false, message: "blog2 has already been deleted" });
-        }
         const deletedBlog2 = await blogModel.updateMany(
-
           { category: category },
           { $set: { isDeleted: true } },
           { new: true }
@@ -52,7 +45,11 @@ const deleteBlog = async function (req, res) {
           .status(201)
           .send({ status: true, msg: "blog2 deleted successfully" });
       }
-      
+      if (blog2.isDeleted == true) {
+        return res
+          .status(400)
+          .send({ status: false, message: "blog2 has already been deleted" });
+      }
       if (!blog2) {
         return res
           .status(404)

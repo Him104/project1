@@ -7,9 +7,11 @@ const blogController = require("../controllers/blogController.js");
 const deleteController = require("../controllers/deleteController.js");
 
 router.post("/authors", authorController.createAuthor);
+router.post('/authorLogin',  authorController.login);
 router.post("/createBlog", blogController.createBlog);
 //router.get('/blogs/:authorId', getController.getBlog);
 router.delete("/deleteblog/:blogId", deleteController.deleteBlog);
 router.delete("/deleteblog", deleteController.deleteBlog);
 
 module.exports = router;
+

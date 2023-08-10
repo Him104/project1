@@ -6,7 +6,6 @@ let emailRegex =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const createAuthor = async function (req, res) {
-
   try {
     const data = req.body;
     if (!data.title) {
@@ -62,10 +61,6 @@ const createAuthor = async function (req, res) {
   }
 };
 
-
-
-
-
 const login = async function (req, res) {
   try {
     const data = req.body;
@@ -79,21 +74,22 @@ const login = async function (req, res) {
         .status(400)
         .send({ status: false, msg: "password is required field" });
     }
-    const userMatch = await registerModel.findOne({
+    const authorMatch = await authorModel.findOne({
       email: data.email,
       password: data.password,
     });
-    if (!userMatch) {
+    if (!authorMatch) {
+      
       return res
         .status(400)
         .send({ status: false, msg: "email or password is incorrect" });
     }
-    const token = jwt.sign({ userId: userMatch._id }, "lata12", {
+    const token = jwt.sign({ authorId: authorMatch._id }, "lata12", {
       expiresIn: "70h",
     });
     return res
       .status(200)
-      .send({ status: true, msg: "you are successfully logged in", token });
+      .send({ status: true, msg: "Logged in successfully", token });
   } catch (error) {
     res.status(500).send({ status: false, error: error.msg });
   }
